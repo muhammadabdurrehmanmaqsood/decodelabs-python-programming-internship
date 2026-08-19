@@ -30,3 +30,32 @@ def generate_secure_password(length: int) -> tuple[str, float]:
     
     entropy = calculate_entropy(length, pool_size)
     return password, entropy
+def main_cli() -> None:
+    """Input-Process-Output scaffold for the terminal interface."""
+    print("--- Enterprise Random Password Generator ---")
+    print("NIST 2024 Standard: 15 to 64 characters.\n")
+    
+    while True:
+        raw_input = input("Enter required password length (or 'quit' to exit): ").strip().lower()
+        if raw_input == 'quit':
+            print("Process terminated safely.")
+            break
+            
+        try:
+            length = int(raw_input)
+            password, entropy = generate_secure_password(length)
+            
+            print("\n[+] SUCCESS: Secure Credential Generated")
+            print(f"Password: {password}")
+            print(f"Entropy:  {entropy:.2f} bits\n")
+            
+        except ValueError as e:
+            # Catch both non-integer inputs and our custom NIST length constraints
+            print(f"[-] INVALID DATA: {e}\n")
+
+if __name__ == "__main__":
+    try:
+        main_cli()
+    except KeyboardInterrupt:
+        print("\nProcess terminated by user. Exiting safely...")
+        sys.exit(0)
