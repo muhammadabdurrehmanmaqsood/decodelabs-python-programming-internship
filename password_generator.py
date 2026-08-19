@@ -1,0 +1,32 @@
+import string
+import secrets
+import math
+import sys
+
+def calculate_entropy(length: int, pool_size: int) -> float:
+    """
+    Calculates information entropy to prove resistance to cracking techniques.
+    """
+    if pool_size <= 0:
+        return 0.0
+    return length * math.log2(pool_size)
+
+def generate_secure_password(length: int) -> tuple[str, float]:
+    """
+    Generates a cryptographically secure password and calculates its entropy.
+    Enforces NIST 2024 guidelines (15-64 characters).
+    """
+    if length < 15 or length > 64:
+        raise ValueError("Length must be between 15 and 64 characters per NIST 2024 guidelines.")
+        
+    # Standardizing character classification for locale-independent consistency
+    char_pool = string.ascii_letters + string.digits + string.punctuation
+    pool_size = len(char_pool)
+    
+    # Utilizing secrets.choice() for hardware-level OS noise, avoiding the deterministic Mersenne Twister
+    # Utilizing list comprehension and .join() to achieve O(N) time complexity and peak memory efficiency
+    password_list = [secrets.choice(char_pool) for _ in range(length)]
+    password = "".join(password_list)
+    
+    entropy = calculate_entropy(length, pool_size)
+    return password, entropy
