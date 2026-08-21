@@ -1,41 +1,55 @@
+"""Command-line expense tracker.
+
+Reads a running list of expense amounts from the user, validates
+each entry, and reports a running and final total.
+"""
+
 import sys
 
+
 def parse_expense(user_input: str) -> int:
+    """Validate and convert raw user input into an integer amount.
+
+    Args:
+        user_input: The raw string entered by the user.
+
+    Returns:
+        The parsed integer expense amount.
+
+    Raises:
+        ValueError: If the input cannot be converted to an integer.
     """
-    Validates and transforms raw input into an integer.
-    Raises ValueError if the input is not a valid integer.
-    """
-    # The int() transformation mechanism enforces type-safety
     return int(user_input)
 
+
 def run_tracker() -> None:
+    """Run the interactive expense-tracking loop until the user quits.
+
+    Continuously prompts for expense amounts, accumulating a running
+    total, until the user enters 'quit'. Invalid entries are rejected
+    with a message and do not affect the total.
     """
-    Executes the continuous audit loop, accumulates expenses,
-    and handles the graceful shutdown via sentinel value.
-    """
-    total = 0  # State initialized outside the loop
-    
+    total = 0
+
     print("--- DecodeLabs Expense Tracker ---")
     print("Enter an expense amount to add to the total.")
-    print("Type 'quit' to halt execution and view the final total.\n")
-    
+    print("Type 'quit' to stop and view the final total.\n")
+
     while True:
         raw_input = input("Enter expense: ").strip().lower()
-        
-        # Kill switch / Sentinel path
-        if raw_input == 'quit':
+
+        if raw_input == "quit":
             break
-            
-        # Poka-Yoke mechanism (Error-proofing)
+
         try:
             new_expense = parse_expense(raw_input)
-            total += new_expense  # Accumulator pattern: State(new) = State(old) + Input
+            total += new_expense
             print(f"Accepted. Current Total: ${total}")
         except ValueError:
-            print("Invalid Data: Please enter a valid numerical integer.")
-            
-    # Output Stream
+            print("Invalid input: please enter a valid whole number.")
+
     print(f"\nFINAL TOTAL: ${total}")
+
 
 if __name__ == "__main__":
     try:
