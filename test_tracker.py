@@ -1,22 +1,28 @@
+"""Unit tests for the expense_tracker module."""
+
 import unittest
+
 from expense_tracker import parse_expense
 
+
 class TestExpenseTracker(unittest.TestCase):
-    
+    """Tests covering expense input parsing and validation."""
+
     def test_valid_integer_input(self):
-        """Test that valid string integers are transformed correctly."""
+        """Valid numeric strings should be converted to integers."""
         self.assertEqual(parse_expense("100"), 100)
         self.assertEqual(parse_expense("50"), 50)
-        
+
     def test_invalid_string_input(self):
-        """Test that the Poka-Yoke mechanism triggers a ValueError on bad data."""
+        """Non-numeric strings should raise ValueError."""
         with self.assertRaises(ValueError):
             parse_expense("ten")
-            
+
     def test_empty_input(self):
-        """Test that empty strings are caught by the error handler."""
+        """Empty strings should raise ValueError."""
         with self.assertRaises(ValueError):
             parse_expense("")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
