@@ -1,7 +1,5 @@
 __pycache__/
 *.py[cod]
 *$py.class
-tasks.json
-*.py[cod]
-*$py.class
 .pytest_cache/
+tasks.json
